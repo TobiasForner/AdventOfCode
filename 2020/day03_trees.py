@@ -1,5 +1,6 @@
 import os
 from functools import reduce
+from input_utils import get_input_file_lines
 
 def count_trees_hit(lines, movement, start = (0,0), verbose = True):
     hits = 0
@@ -20,9 +21,5 @@ def trees_hit_prod(lines, patterns, verbose = False):
 if __name__ == '__main__':
     part = 2
     patterns = [[(1, 3)], [(1, 1), (1, 3), (1, 5), (1, 7), (2, 1)]]
-    rel_path = os.path.join('2020', 'inputs', 'day03_trees.txt')
-    my_path = os.getcwd()
-    path = os.path.join(my_path, rel_path)
-    with open(path) as file:
-        lines = file.readlines()
-        print('trees hit product:', trees_hit_prod(lines, patterns[part - 1]))
+    lines = get_input_file_lines('day03_trees.txt')
+    print('trees hit product:', trees_hit_prod(lines, patterns[part - 1]))

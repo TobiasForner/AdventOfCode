@@ -1,4 +1,5 @@
 import os
+from input_utils import get_input_file_lines
 
 def get_target_numbers_and_result(numbers, start_number = 0, number_count=2, target_sum=2020, verbose = False):
     for i in range(len(numbers)):
@@ -14,15 +15,7 @@ def get_target_numbers_and_result(numbers, start_number = 0, number_count=2, tar
 
 
 if __name__ == '__main__':
-    #fileDir = os.path.dirname(os.path.realpath('__file__'))
-    #script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
-    rel_path = os.path.join('2020', 'inputs', 'day01_expense_report.txt')
-    my_path = os.getcwd()
-    print('path:',my_path)
-    path = os.path.join(my_path, rel_path)
-    print('joined path:', path)
-    with open(path) as file:
-        numbers = [int(i) for i in file.readlines()]
-        res = get_target_numbers_and_result(numbers, number_count = 3)
-        print(f'numbers:{res[0]}, product= {res[1]}')
+    numbers = [int(i) for i in get_input_file_lines('day01_expense_report.txt')]
+    res = get_target_numbers_and_result(numbers, number_count = 3)
+    print(f'numbers:{res[0]}, product= {res[1]}')
     

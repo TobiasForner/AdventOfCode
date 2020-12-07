@@ -1,5 +1,7 @@
 import os
 
+from input_utils import get_input_file_lines
+
 def is_correct_ver1(entry):
         return entry['pattern']['min'] <= entry['pw'].count(entry['pattern']['char']) <= entry['pattern']['max']
 
@@ -21,9 +23,5 @@ def count_correct_pw(patterns_pw_dict, is_correct):
 if __name__ == '__main__':
     part = 2
     correct_checkers = [is_correct_ver1, is_correct_ver2]
-    rel_path = os.path.join('2020', 'inputs', 'day02_passwords.txt')
-    my_path = os.getcwd()
-    path = os.path.join(my_path, rel_path)
-    with open(path) as file:
-        patterns_passwords = gen_patterns_passwords(file.readlines())
-        print('correct:', count_correct_pw(patterns_passwords, correct_checkers[part-1]))
+    patterns_passwords = gen_patterns_passwords(get_input_file_lines('day02_passwords.txt'))
+    print('correct:', count_correct_pw(patterns_passwords, correct_checkers[part-1]))

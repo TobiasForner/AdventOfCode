@@ -1,4 +1,5 @@
 import os
+from input_utils import get_input_file_lines
 
 def calculate_pos(s, first, bounds):
     middle = bounds[0] + (bounds[1] - bounds[0])//2
@@ -20,7 +21,7 @@ def get_ids(lines):
     for line in lines:
         row = calculate_row(line[:7])
         col = calculate_col(line[7:10])
-        res.append((row, col, row * 8 + col, line))
+        res.append((row, col, row * 8 + col, line[:10]))
     return res
 
 def find_gap(l):
@@ -35,7 +36,7 @@ if __name__ == '__main__':
     my_path = os.getcwd()
     path = os.path.join(my_path, rel_path)
     with open(path) as file:
-        lines = file.readlines()
+        lines = get_input_file_lines('day05_passes.txt')
         if test:
             lines = ['FBFBBFFRLR', 'BFFFBBFRRR', 'FFFBBBFRRR', 'BBFFBBFRLL']
         res = get_ids(lines)

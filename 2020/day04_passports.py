@@ -1,5 +1,6 @@
 import os 
 from string import ascii_lowercase
+from input_utils import get_input_file_lines
 
 def get_batches(lines, verbose = False):
     current_batch = ''
@@ -82,10 +83,5 @@ def valid_count(batches, fields, optional={'cid'}):
 if __name__ == '__main__':
     part = 1
     fields = [set(['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid', 'cid'])]
-    rel_path = os.path.join('2020', 'inputs', 'day04_passports.txt')
-    my_path = os.getcwd()
-    path = os.path.join(my_path, rel_path)
-    with open(path) as file:
-        lines = file.readlines()
-        batches = get_batches(lines)
-        print('valid:', valid_count(batches, fields[part-1]))
+    batches = get_batches(get_input_file_lines('day04_passports.txt'))
+    print('valid:', valid_count(batches, fields[part-1]))
