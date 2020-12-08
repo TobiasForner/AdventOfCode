@@ -3,7 +3,8 @@ from copy import deepcopy
 
 
 def part02(lines):
-    """solves part 2 of day 8 of AoC 2020
+    """
+    solves part 2 of day 8 of AoC 2020
 
     Args:
         lines (string list): input lines
@@ -13,9 +14,9 @@ def part02(lines):
     """
     for i in range(len(lines)):
         lines_tmp = deepcopy(lines)
-        if 'nop' in lines[i] and ' ' in lines[i]:
+        if 'nop' in lines[i]:
             lines_tmp[i] = lines[i].replace('nop', 'jmp')
-        elif 'jmp' in lines[i] and ' ' in lines[i]:
+        elif 'jmp' in lines[i]:
             lines_tmp[i] = lines[i].replace('jmp', 'nop')
         else:
             continue
@@ -26,7 +27,8 @@ def part02(lines):
 
 
 def part01(lines):
-    """solves part 1 of day 8 of AoC 2020, returns the value of the accumulator directly before the first reexecution of any line
+    """
+    solves part 1 of day 8 of AoC 2020, returns the value of the accumulator directly before the first reexecution of any line
 
     Args:
         lines (list(string)): lines of the input
@@ -39,18 +41,15 @@ def part01(lines):
     acc = 0
     while True:
         if pos in lines_executed:
-            #print(f'Part 01: Value in acc before repeat: {acc}')
             return acc, True
         elif pos == len(lines):
             return acc, False
-        l = lines[pos]
-        l = l.replace('\n', '')
+        l = lines[pos].replace('\n', '')
         lines_executed.append(pos)
-        if 'nop' in l:
-            pos += 1
-            continue
         command, val = l.split(' ')
-        if command == 'acc':
+        if command == 'nop':
+            pos += 1
+        elif command == 'acc':
             acc += int(val)
             pos += 1
         elif command == 'jmp':
