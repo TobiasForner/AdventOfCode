@@ -1,4 +1,5 @@
 from input_utils import get_input_file_lines
+import time
 
 
 def parse_contents(contents):
@@ -53,7 +54,7 @@ def init_bags(lines):
     for line in lines:
         line = line.replace('\n', '')
         tmp = line.split(' bags contain ')
-        bag, contents = tmp[0], tmp[1]  # line.split('s contain ')
+        bag, contents = tmp[0], tmp[1]
         bags[bag] = parse_contents(contents)
     return bags
 
@@ -71,14 +72,18 @@ def count_inside_bag(bags, target):
 
 def part01(bags, target_bag):
     explored_bags = explore_bags(bags, target_bag)
-    print(f'part 01: bags containing {target_bag} bag (explore):', sum(
+    print(f'part 01: bags containing {target_bag} bag:', sum(
         [1 for x in explored_bags.values() if x]))
 
 
 if __name__ == '__main__':
-    part = 1
     target_bag = 'shiny gold'
     lines = get_input_file_lines('day07_bags.txt')
     initial_bags = init_bags(lines)
+    t1 = time.perf_counter()
     part01(initial_bags, target_bag)
-    print('part 02:', count_inside_bag(initial_bags, target_bag))
+    t2 = time.perf_counter()
+    print('part 02: number of bags in a shiny gold bag:',
+          count_inside_bag(initial_bags, target_bag))
+    t3 = time.perf_counter()
+    print(f'time for part 1: {t2-t1:.5f}s\ntime for part 2: {t3-t2:.5f}s')
