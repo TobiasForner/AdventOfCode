@@ -2,28 +2,35 @@ from input_utils import get_input_file_lines_no_nl
 import re
 
 
-def get_info(lines):
-    own_line = 0
+def parse_bounds(bounds_text):
     bounds = {}
-    for index, l in enumerate(lines):
-        if l == 'your ticket:':
-            own_line = index + 1
-            break
-        if not any([x.isalpha() for x in l]):
-            continue
-        m = re.search(r'([a-z\s]+): (\d+-\d+)(?: or (\d+-\d+))', l)
-        var_name, *bounds = m.groups()
+    for line in bounds_text.split('\n'):
+        m = re.search(r'([a-z\s]+): (\d+-\d+)(?: or (\d+-\d+))', line)
+        var_name, *bound_pairs = m.groups()
         var_bounds = []
-        for b in bounds:
-            lower, upper = b.split('-')
+        for pair in bound_pairs:
+            lower, upper = pair.split('-')
             var_bounds.append((int(lower), int(upper)))
         bounds[var_name] = var_bounds
-    own_ticket_nums = [int(x) for x in lines[own_line].split(',')]
+    return bounds
+
+
+def parse_nearby_tickets(tickets_text):
     nearby_ticket_nums = []
-    for l in lines[own_line+1:]:
+    for l in tickets_text.split('\n'):
         if not any([x.isnumeric() for x in l]):
             continue
         nearby_ticket_nums.append([int(x) for x in l.split(',')])
+    return nearby_ticket_nums
+
+
+def get_info(lines):
+    bounds_text, rest = ('\n'.join(lines)).split('\n\nyour ticket:\n')
+    own_nums, other_nums = rest.split('\n\nnearby tickets:\n')
+    bounds = parse_bounds(bounds_text)
+
+    own_ticket_nums = [int(x) for x in own_nums.split(',')]
+    nearby_ticket_nums = parse_nearby_tickets(other_nums)
     return bounds, own_ticket_nums, nearby_ticket_nums
 
 
@@ -45,13 +52,13 @@ def is_within_bounds(value, bounds):
 def part01(lines, verbose=False):
     bounds, own_ticket_nums, nearby_ticket_nums = get_info(lines)
     error_sum = 0
-    print(bounds)
     valid_tickets = []
     for ticket in nearby_ticket_nums:
         valid = True
         for num in ticket:
             if not is_within_bounds(num, bounds):
-                print('out of bounds:', num)
+                if verbose:
+                    print('out of bounds:', num)
                 error_sum += num
                 valid = False
         if valid:
@@ -86,7 +93,8 @@ def part02(bounds, own_ticket_nums, valid_tickets, verbose=False):
                         change = True
                         possible_fields_per_pos[index2] = [
                             name for name in possible_names2 if name != possible_names[0]]
-    print('possible names per position:', possible_fields_per_pos)
+    if verbose:
+        print('possible names per position:', possible_fields_per_pos)
     result = 1
     for i, fields in enumerate(possible_fields_per_pos):
         if re.search(r'^departure', fields[0]):
