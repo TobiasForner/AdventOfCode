@@ -3,3 +3,4 @@
 2020/__pycache__/input_utils.cpython-39.pyc
 __pycache__
 .pytest_cache
+*.log

@@ -1,5 +1,0 @@
-light red bags contain 1 light blue bag.
-light blue bags contain 1 light green bag, 4 blue green bags.
-light green bags contain 1 shiny gold bag.
-blue green bags contain no other bags.
-shiny gold bags contain no other bags.
