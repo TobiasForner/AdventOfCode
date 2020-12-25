@@ -97,6 +97,14 @@ class HexPosition:
         return dir_to_function[dir]()
 
 
+def part02(lines):
+    dir_lists = parse_input(lines)
+    black_positions = compute_black_positions(dir_lists)
+    game = HexGameOfLife(black_positions)
+    game.play(100)
+    print('Part 2:', game.get_black_tile_nr())
+
+
 class HexGameOfLife:
     def __init__(self, black_positions):
         self.black_positions = set(black_positions)
@@ -136,14 +144,6 @@ class HexGameOfLife:
             if len(adjacent_black_positions) == 2:
                 return True
             return False
-
-
-def part02(lines):
-    dir_lists = parse_input(lines)
-    black_positions = compute_black_positions(dir_lists)
-    game = HexGameOfLife(black_positions)
-    game.play(100)
-    print('Part 2:', game.get_black_tile_nr())
 
 
 if __name__ == '__main__':
