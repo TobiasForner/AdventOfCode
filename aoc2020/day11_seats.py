@@ -1,4 +1,4 @@
-from input_utils import get_input_file_lines_no_nl
+from aoc2020.input_utils import get_input_file_lines_no_nl
 from copy import deepcopy
 
 
